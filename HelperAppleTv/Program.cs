@@ -13,11 +13,11 @@ namespace HelperAppleTv
 
         static void Main(string[] args)
         {
-            var parseArgs = getArgs(args);
-            connectAppleTv(parseArgs["IP"], parseArgs["u"], parseArgs["p"]);
+            var parseArgs = GetArgs(args);
+            ConnectAppleTv(parseArgs["IP"], parseArgs["u"], parseArgs["p"]);
         }
 
-        private static void connectAppleTv(string IP, string user, string pass)
+        private static void ConnectAppleTv(string IP, string user, string pass)
         {
             using (var client = new SshClient(IP, user, pass)) {
                 try
@@ -40,7 +40,7 @@ namespace HelperAppleTv
             }
         }
 
-        private static Dictionary<string, string> getArgs(string[] args)
+        private static Dictionary<string, string> GetArgs(string[] args)
         {
             Dictionary<string, string> argsMap = new Dictionary<string, string>();
             for (int i = 0; i < args.Length; i++)
