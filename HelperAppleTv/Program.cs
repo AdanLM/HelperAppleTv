@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using System.Reflection;
 using Renci.SshNet;
 using Renci.SshNet.Common;
+using Windows.UI.Notifications;
 
 namespace HelperAppleTv
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             var parseArgs = getArgs(args);
@@ -24,11 +27,11 @@ namespace HelperAppleTv
                 }
                 catch (SocketException e)
                 {
-                    //TODO - Notificacion IP no valida
+                    ShowToast("Error IP", "IP " + IP + " no valida.\nFavor de verificar.");
                 }
                 catch (SshAuthenticationException e)
                 {
-                    //TODO - Notificacion usuario y/o password erroneas
+                    ShowToast("Error Auth", "Usuario o contraseña incorrecta.\nFavor de verificar.");
                 }
                 finally
                 {
@@ -46,6 +49,17 @@ namespace HelperAppleTv
                 argsMap.Add(getKeyValue[0], getKeyValue[1]);
             }
             return argsMap;
+        }
+
+        private static void ShowToast(string Title, string message)
+        {
+            var xml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
+            var text = xml.GetElementsByTagName("text");
+            text[0].AppendChild(xml.CreateTextNode(Title));
+            text[1].AppendChild(xml.CreateTextNode(message));
+
+            ToastNotification toast = new ToastNotification(xml);
+            ToastNotificationManager.CreateToastNotifier(Assembly.GetExecutingAssembly().GetName().Name).Show(toast);
         }
     }
 }
