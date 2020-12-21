@@ -24,12 +24,13 @@ namespace HelperAppleTv
                 {
                     client.Connect();
                     client.RunCommand("reboot");
+                    ShowToast("Exito", "Se ejecuto con exito el comando.\n" + IP);
                 }
-                catch (SocketException e)
+                catch (SocketException)
                 {
                     ShowToast("Error IP", "IP " + IP + " no valida.\nFavor de verificar.");
                 }
-                catch (SshAuthenticationException e)
+                catch (SshAuthenticationException)
                 {
                     ShowToast("Error Auth", "Usuario o contraseña incorrecta.\nFavor de verificar.");
                 }
